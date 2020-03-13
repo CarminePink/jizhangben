@@ -21,7 +21,6 @@
    }
 
    .content {
-      border: 1px solid green;
       overflow: auto;
       flex-grow: 1;
    }
