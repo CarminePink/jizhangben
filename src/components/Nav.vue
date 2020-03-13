@@ -29,7 +29,7 @@
       display: flex;
       box-shadow:0 0 3px rgba(0,0,0,0.25);
       font-style: 12px;
-      >.item{
+      > .item{
          padding: 2px 0;
          display: flex;
          flex-direction: column;
