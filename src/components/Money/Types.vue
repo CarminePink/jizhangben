@@ -1,16 +1,29 @@
 <template>
    <div>
       <ul class="types">
-         <li class="selected">流出</li>
-         <li>流入</li>
+         <li :class="this.type ==='-' && 'selected' " @click="selectType('-')">流出</li>
+         <li :class="this.type ==='+' && 'selected' " @click="selectType('+')">流入</li>
       </ul>
    </div>
 </template>
 
-<script lang="ts">
+<script>
    export default {
-      name: 'Types'
-   };
+      name: 'Types',
+      data() {
+         return {
+            type: '-' //-代表流出 +代表流入  默认为流出
+         }
+      },
+      methods: {
+         selectType(type) {
+            if (type !== '-' && type !== '+') {
+               throw new Error('type类型未知')
+            }
+            this.type = type
+         }
+      }
+   }
 </script>
 
 <style scoped lang="scss">
