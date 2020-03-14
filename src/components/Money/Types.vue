@@ -7,27 +7,45 @@
    </div>
 </template>
 
-<script>
-   export default {
-      name: 'Types',
-      data() {
-         return {
-            type: '-' //-代表流出 +代表流入  默认为流出
+<script lang="ts">
+   import Vue from 'vue';
+   import {Component} from 'vue-property-decorator';
+
+   @Component //Component是一个装饰器
+   export default class Types extends Vue {
+      type = '-'; //-代表流出 +代表流入  默认为流出
+      selectType(type: string) {
+         if (type !== '-' && type !== '+') {
+            throw  new Error('type类型未知');
          }
-      },
-      methods: {
-         selectType(type) {
-            if (type !== '-' && type !== '+') {
-               throw new Error('type类型未知')
-            }
-            this.type = type
-         }
+         this.type = type;
       }
    }
 </script>
 
+
+<!--<script>-->
+<!--   export default {-->
+<!--      name: 'Types',-->
+<!--      data() {-->
+<!--         return {-->
+<!--            type: '-' //-代表流出 +代表流入  默认为流出-->
+<!--         }-->
+<!--      },-->
+<!--      methods: {-->
+<!--         selectType(type) {-->
+<!--            if (type !== '-' && type !== '+') {-->
+<!--               throw new Error('type类型未知')-->
+<!--            }-->
+<!--            this.type = type-->
+<!--         }-->
+<!--      }-->
+<!--   }-->
+<!--</script>-->
+
 <style scoped lang="scss">
    @import "~@/assets/style/helper.scss";
+
    .types {
       display: flex;
 
