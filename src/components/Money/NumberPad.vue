@@ -13,7 +13,7 @@
          <button @click="inputContent('7')">7</button>
          <button @click="inputContent('8')">8</button>
          <button @click="inputContent('9')">9</button>
-         <button class="ok">ok</button>
+         <button class="ok" @click="ok">ok</button>
          <button @click="inputContent('0')">0</button>
          <button @click="inputContent('.')">.</button>
          <button>backspace</button>
@@ -61,6 +61,10 @@
 
       clear() {
          this.output = '0';
+      }
+
+      ok() {
+         this.$emit('update:Amount', this.output);
       }
    }
 </script>

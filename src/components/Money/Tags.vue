@@ -13,7 +13,7 @@
 
 <script lang="ts">
    import Vue from 'vue';
-   import {Component, Prop} from 'vue-property-decorator';
+   import {Component, Prop, Watch} from 'vue-property-decorator';
 
    @Component
    export default class Tags extends Vue {
@@ -25,6 +25,11 @@
             this.selectedTag = [];
          }
          this.selectedTag.push(tag);
+      }
+
+      @Watch('selectedTag')
+      onSelectedTag(selectNewTag: string[]) {
+         this.$emit('update:Tag', selectNewTag);
       }
 
       create() {
