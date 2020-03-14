@@ -1,13 +1,9 @@
 <template>
    <div class="tags">
       <ul class="current">
-         <li>衣</li>
-         <li>食</li>
-         <li>住</li>
-         <li>行</li>
-         <li>衣</li>
-         <li>食</li>
-         <li>住</li>
+         <li :class="selectedTag.indexOf(tag)>=0 && 'selected'" v-for="tag in tagSource" :key="tag"
+             @click="select(tag)">{{tag}}
+         </li>
       </ul>
       <div class="new">
          <button>新增标签</button>
@@ -16,8 +12,20 @@
 </template>
 
 <script lang="ts">
-   export default {
-      name: 'Tags'
+   import Vue from 'vue';
+   import {Component, Prop} from 'vue-property-decorator';
+
+   @Component
+   export default class Tags extends Vue {
+      @Prop() tagSource: string[] | undefined;
+      selectedTag: string[] = ['美食'];
+
+      select(tag: string) {
+         if (this.selectedTag.length >= 0) {
+            this.selectedTag = [];
+         }
+         this.selectedTag.push(tag);
+      }
    }
 </script>
 
@@ -26,9 +34,11 @@
       padding: 16px;
       font-size: 14px;
       flex-grow: 1;
+
       > .current {
          display: flex;
-         flex-wrap:wrap;
+         flex-wrap: wrap;
+
          > li {
             margin-top: 8px;
             margin-right: 12px;
@@ -37,6 +47,10 @@
             line-height: 30px;
             background: #d9d9d9;
             border-radius: 50%;
+
+            &.selected {
+               background: #f60;
+            }
          }
       }
 
