@@ -6,7 +6,7 @@
          </li>
       </ul>
       <div class="new">
-         <button>新增标签</button>
+         <button @click="create()">新增标签</button>
       </div>
    </div>
 </template>
@@ -25,6 +25,17 @@
             this.selectedTag = [];
          }
          this.selectedTag.push(tag);
+      }
+
+      create() {
+         const name = window.prompt('请输入要添加的标签名');
+         if (name === '' || name === null) {
+            return;
+         } else {
+            if (this.tagSource !== undefined) {
+               this.$emit('update:tagSource', [...this.tagSource, name]);
+            }
+         }
       }
    }
 </script>

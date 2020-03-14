@@ -1,7 +1,7 @@
 <template>
    <Layout class-prefix="layout">
       <Types/>
-      <Tags :tag-source="tags"/>
+      <Tags :tag-source.sync="tags"/>
       <Notes/>
       <NumberPad/>
    </Layout>
