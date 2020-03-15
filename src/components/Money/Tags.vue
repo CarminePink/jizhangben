@@ -28,7 +28,7 @@
       }
 
       @Watch('selectedTag')
-      onSelectedTag(selectNewTag: string[]) {
+      onSelectedTagChanged(selectNewTag: string[]) {
          this.$emit('update:Tag', selectNewTag);
       }
 
