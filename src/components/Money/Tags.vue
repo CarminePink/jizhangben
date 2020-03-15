@@ -1,8 +1,8 @@
 <template>
    <div class="tags">
       <ul class="current">
-         <li :class="selectedTag.indexOf(tag)>=0 && 'selected'" v-for="tag in tagSource" :key="tag"
-             @click="select(tag)">{{tag}}
+         <li :class="selectedTag.indexOf(tag.name)>=0 && 'selected'" v-for="tag in tagSource" :key="tag.id"
+             @click="select(tag.name)">{{tag.name}}
          </li>
       </ul>
       <div class="new">
