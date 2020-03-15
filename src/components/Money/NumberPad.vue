@@ -65,6 +65,7 @@
 
       ok() {
          this.$emit('update:Amount', this.output);
+         this.$emit('submit', this.output);
       }
    }
 </script>
