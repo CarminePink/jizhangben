@@ -20,6 +20,7 @@
       tag: string[];
       notes: string;
       Amount: number;
+      createdAt?: Date;
    }
 
 
@@ -30,13 +31,13 @@
    export default class Money extends Vue {
       tags = ['美食', '交通', '娱乐', '学习', '日常'];
 
-      recordList: Record[] = [];
+      recordList: Record[] = JSON.parse(localStorage.getItem('recordList') || '[]');
 
       record: Record = {
          type: '-',
          tag: [],
          notes: '',
-         Amount: 0
+         Amount: 0,
       };
 
       onUpdateType(type: string) {
@@ -57,9 +58,9 @@
 
       saveRecord() {
          //实现深拷贝
-         const recordClone = JSON.parse(JSON.stringify(this.record));
+         const recordClone: Record = JSON.parse(JSON.stringify(this.record));
+         recordClone.createdAt = new Date();
          this.recordList.push(recordClone);
-         console.log(this.recordList);
       }
 
       @Watch('recordList')
