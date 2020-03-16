@@ -19,6 +19,7 @@
    import {Component} from 'vue-property-decorator';
    import tagListModel from '@/models/tagListModel';
    import Button from '@/components/Button.vue';
+
    @Component({
       components: {Button}
    })
@@ -28,12 +29,7 @@
       createTag() {
          const name = window.prompt('请输入标签名');
          if (name) {
-            const message = tagListModel.create(name);
-            if (message === 'duplicated') {
-               alert('不可添加重复标签');
-            } else {
-               return;
-            }
+            window.createTag(name);
          }
       }
    }
@@ -61,16 +57,16 @@
    }
 
    .createTag {
-       background-color: #767676;
-       padding: 0 16px;
-       border-radius: 5px;
-       border: none;
-       height: 40px;
+      background-color: #767676;
+      padding: 0 16px;
+      border-radius: 5px;
+      border: none;
+      height: 40px;
 
-       &-wrapper {
-          text-align: center;
-          padding-top: 16px;
-          margin-top: 28px;
-       }
-    }
+      &-wrapper {
+         text-align: center;
+         padding-top: 16px;
+         margin-top: 28px;
+      }
+   }
 </style>

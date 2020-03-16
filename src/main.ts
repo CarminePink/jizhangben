@@ -15,6 +15,14 @@ Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
 
 window.tagList = tagListModel.getData();
+window.createTag = (name: string) => {
+   const message = tagListModel.create(name);
+   if (message === 'duplicated') {
+      alert('不可添加重复标签');
+   } else {
+      return;
+   }
+};
 
 new Vue({
    router,
