@@ -52,10 +52,7 @@
       }
 
       saveRecord() {
-         //实现深拷贝
-         const recordClone: RecordItem = recordListModel.clone(this.record);
-         recordClone.createdAt = new Date();
-         this.recordList.push(recordClone);
+         recordListModel.create(this.record);
       }
 
       @Watch('recordList')
