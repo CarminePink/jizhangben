@@ -2,7 +2,7 @@
    <div>
       <label class="FormItem">
          <span class="name">{{this.filedName}}</span>
-         <input type="text" v-model="value" :placeholder="this.placeHolder">
+         <input type="text" :value="this.value" @input="onValueChanged($event.target.value)" :placeholder="this.placeHolder">
       </label>
    </div>
 </template>
@@ -13,7 +13,7 @@
 
    @Component
    export default class FormItem extends Vue {
-      value = '';
+      @Prop({default:''}) value!: string;
 
       @Prop() filedName!: string;
       @Prop() placeHolder?: string;
