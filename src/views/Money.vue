@@ -14,9 +14,8 @@
    import Tags from '@/components/Money/Tags.vue';
    import FormItem from '@/components/Money/FormItem.vue';
    import NumberPad from '@/components/Money/NumberPad.vue';
-   import {Component, Watch} from 'vue-property-decorator';
-   import recordListModel from '@/models/recordListModel';
-   import tagListModel from '@/models/tagListModel';
+   import {Component} from 'vue-property-decorator';
+   import store from '@/store/index2';
 
 
    @Component({
@@ -24,9 +23,9 @@
    })
 
    export default class Money extends Vue {
-      tags = window.tagList;
+      tags = store.tagList;
 
-      recordList: RecordItem[] = window.recordList;
+      recordList: RecordItem[] = store.recordList;
 
       record: RecordItem = {
          type: '-',
@@ -52,7 +51,7 @@
       }
 
       saveRecord() {
-         window.createRecord(this.record);
+         store.createRecord(this.record);
       }
    }
 </script>
