@@ -26,7 +26,7 @@
    export default class Money extends Vue {
       tags = window.tagList;
 
-      recordList: RecordItem[] = recordListModel.getData();
+      recordList: RecordItem[] = window.recordList;
 
       record: RecordItem = {
          type: '-',
@@ -52,12 +52,7 @@
       }
 
       saveRecord() {
-         recordListModel.create(this.record);
-      }
-
-      @Watch('recordList')
-      onRecordListChanged() {
-         recordListModel.saveData();
+         window.createRecord(this.record);
       }
    }
 </script>

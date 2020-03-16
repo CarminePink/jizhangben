@@ -2,10 +2,11 @@ import clone from '@/lib/clone.ts';
 
 const recordListModel = {
    data: [] as RecordItem[],
-   create(record: RecordItem){
+   create(record: RecordItem) {
       const recordClone: RecordItem = clone(record);
       recordClone.createdAt = new Date();
       this.data.push(recordClone);
+      this.saveData();
    },
    getData() {
       this.data = JSON.parse(localStorage.getItem('recordList') || '[]') as RecordItem[];
