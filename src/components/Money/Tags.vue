@@ -1,7 +1,7 @@
 <template>
    <div class="tags">
       <ul class="current">
-         <li :class="selectedTag.indexOf(tag.name)>=0 && 'selected'" v-for="tag in tagSource" :key="tag.id"
+         <li :class="selectedTag.indexOf(tag.name)>=0 && 'selected'" v-for="tag in tagList" :key="tag.id"
              @click="select(tag.name)">
             {{tag.name}}
          </li>
@@ -14,11 +14,12 @@
 
 <script lang="ts">
    import Vue from 'vue';
-   import {Component, Prop, Watch} from 'vue-property-decorator';
+   import {Component, Watch} from 'vue-property-decorator';
+   import store from '@/store/index2';
 
    @Component
    export default class Tags extends Vue {
-      @Prop() tagSource: string[] | undefined;
+      tagList = store.getTags();
       selectedTag: string[] = ['美食'];
 
       select(tag: string) {
@@ -38,9 +39,7 @@
          if (name === '' || name === null) {
             return;
          } else {
-            if (this.tagSource !== undefined) {
-               this.$emit('update:tagSource', [...this.tagSource, name]);
-            }
+               store.createTag(name);
          }
       }
    }
