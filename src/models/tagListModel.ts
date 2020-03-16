@@ -1,3 +1,5 @@
+import createId from '@/lib/createId';
+
 const localStorageKeyName = 'tagList';
 type Tag = {
    id: string;
@@ -8,7 +10,7 @@ type TagListModel = {
    getData: () => Tag[];
    create: (name: string) => string;
    updateData: (id: string, name: string) => 'success' | 'not found' | 'duplicated';
-   removeData: (id: string) => 'success';
+   removeData: (id: string) => boolean;
    saveData: () => void;
 }
 
@@ -26,7 +28,6 @@ const tagListModel: TagListModel = {
             return 'duplicated';
          } else {
             const tag = this.data.filter(item => item.id === id)[0];
-            tag.id = name;
             tag.name = name;
             this.saveData();
             return 'success';
@@ -40,17 +41,19 @@ const tagListModel: TagListModel = {
       const index = idList.indexOf(id);
       this.data.splice(index, 1);
       this.saveData();
-      return 'success';
+      return true;
    },
    saveData() {
       localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
    },
    create(name) {
+
       const names = this.data.map(item => item.name);
       if (names.indexOf(name) >= 0) {
          return 'duplicated';
       } else {
-         this.data.push({id: name, name: name});
+         const id = createId().toString();
+         this.data.push({id: id, name: name});
          this.saveData();
          return 'success';
       }

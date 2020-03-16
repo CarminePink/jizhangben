@@ -60,7 +60,7 @@
 
       @Watch('recordList')
       onRecordListChanged() {
-         recordListModel.saveData(this.recordList);
+         recordListModel.saveData();
       }
    }
 </script>
