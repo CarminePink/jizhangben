@@ -49,7 +49,7 @@
 
       remove() {
          if (this.tag) {
-            if (tagListModel.removeData(this.tag.name)) {
+            if (tagListModel.removeData(this.tag.id)) {
                this.$router.back();
             }
          }
