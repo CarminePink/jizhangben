@@ -6,7 +6,7 @@
          <span class="rightIcon"></span>
       </div>
       <div class="form-wrapper">
-         <FormItem filed-name="标签名" place-holder="请输入标签名"/>
+         <FormItem :value="this.tag.name" filed-name="标签名" place-holder="请输入标签名"/>
       </div>
       <div class="button-wrapper">
          <Button>删除标签</Button>
@@ -21,10 +21,13 @@
    import tagListModel from '@/models/tagListModel';
    import FormItem from '@/components/Money/FormItem.vue';
    import Button from '@/components/Button.vue';
+
    @Component({
       components: {Button, FormItem}
    })
    export default class EditLabel extends Vue {
+      tag?: {id: string; name: string}  = undefined;
+
       created() {
          console.log(this.$route.params);
          const id = this.$route.params.id;
@@ -32,7 +35,7 @@
          const tags = tagListModel.data;
          const tag = tags.filter(item => item.id === id)[0];
          if (tag) {
-            console.log(tag);
+            this.tag = tag;
          } else {
             this.$router.replace('/404');
          }
@@ -41,29 +44,34 @@
 </script>
 
 <style scoped lang="scss">
-   .navBar{
+   .navBar {
       background: white;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 12px 16px;
-      >.leftIcon{
+
+      > .leftIcon {
          width: 24px;
          height: 24px;
       }
-      >.title{
+
+      > .title {
 
       }
-      >.rightIcon{
+
+      > .rightIcon {
          width: 24px;
          height: 24px;
       }
    }
-   .form-wrapper{
+
+   .form-wrapper {
       background: white;
       margin-top: 8px;
    }
-   .button-wrapper{
+
+   .button-wrapper {
       text-align: center;
       padding: 16px;
       margin-top: 28px;
