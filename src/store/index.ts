@@ -50,8 +50,8 @@ const store = new Vuex.Store({
             store.commit('saveTags');
          }
       },
-      updateTag(state, playlod: { id: string; name: string }) {
-         const {id, name} = playlod;
+      updateTag(state, payload: { id: string; name: string }) {
+         const {id, name} = payload;
          const idList = state.tagList.map(item => item.id);
          if (idList.indexOf(id) >= 0) {
             const names = state.tagList.map(item => item.name);
