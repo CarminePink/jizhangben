@@ -7,12 +7,18 @@ Vue.use(Vuex);
 //把 store 绑到 Vue.prototype上  Vue.prototype.$store = store
 //这样我们使用Vue创建的实例就可以使用this.$store 相当于使用了store
 
+type RootState = {
+   recordList: RecordItem[];
+   tagList: Tag[];
+   currentTag?: Tag;
+}
+
 const store = new Vuex.Store({
    state: {//相当于data
-      recordList: [] as RecordItem[],
-      tagList: [] as Tag[],
-
-   },
+      recordList: [],
+      tagList: [],
+      currentTag: undefined,
+   } as RootState,
    mutations: {//相当于methods
       getRecords(state) {
          state.recordList = JSON.parse(localStorage.getItem('recordList') || '[]') as RecordItem[];
@@ -36,14 +42,15 @@ const store = new Vuex.Store({
          const names = state.tagList.map(item => item.name);
          if (names.indexOf(name) >= 0) {
             alert('不可添加重复标签');
-            return 'duplicated';
          } else {
             const id = createId().toString();
             state.tagList.push({id: id, name: name});
             store.commit('saveTags');
-            return 'success';
          }
       },
+      setCurrentTag(state,id: string){
+         state.currentTag = state.tagList.filter(item => item.id === id)[0]
+      }
    },
 });
 
