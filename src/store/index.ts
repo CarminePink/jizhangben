@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import clone from '@/lib/clone';
 import createId from '@/lib/createId';
+import router from '@/router';
 
 Vue.use(Vuex);
 //把 store 绑到 Vue.prototype上  Vue.prototype.$store = store
@@ -32,6 +33,7 @@ const store = new Vuex.Store({
          state.recordList.push(recordClone);
          store.commit('saveRecords');
       },
+
       getTags(state) {
          state.tagList = JSON.parse(localStorage.getItem('tagList') || '[]');
       },
@@ -48,8 +50,35 @@ const store = new Vuex.Store({
             store.commit('saveTags');
          }
       },
-      setCurrentTag(state,id: string){
-         state.currentTag = state.tagList.filter(item => item.id === id)[0]
+      updateTag(state, playlod: { id: string; name: string }) {
+         const {id, name} = playlod;
+         const idList = state.tagList.map(item => item.id);
+         if (idList.indexOf(id) >= 0) {
+            const names = state.tagList.map(item => item.name);
+            if (names.indexOf(name) >= 0) {
+               window.alert('请不要设置重复的标签名');
+            } else {
+               const tag = state.tagList.filter(item => item.id === id)[0];
+               tag.name = name;
+               store.commit('saveTags');
+            }
+         } else {
+            return 'not found';
+         }
+      },
+      removeTag(state, id: string) {
+         const idList = state.tagList.map(item => item.id);
+         const index = idList.indexOf(id);
+         if (index >= 0) {
+            state.tagList.splice(index, 1);
+            store.commit('saveTags');
+            router.back();
+         } else {
+            window.alert('删除失败');
+         }
+      },
+      setCurrentTag(state, id: string) {
+         state.currentTag = state.tagList.filter(item => item.id === id)[0];
       }
    },
 });
