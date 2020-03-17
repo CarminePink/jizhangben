@@ -1,27 +1,23 @@
 <template>
-   <div>
-      <ul class="types">
-         <li :class="{[classPrefix+'-type']:classPrefix,selected: this.type ==='-'}" @click="selectType('-')">流出</li>
-         <li :class="{[classPrefix+'-type']:classPrefix,selected: this.type ==='+'}" @click="selectType('+')">流入</li>
-      </ul>
-   </div>
+   <ul class="tabs">
+      <li :class="{selected: item.value ===value}" v-for="item in dataSource" :key="item.value" @click="select(item.value)">
+         {{item.text}}
+      </li>
+   </ul>
 </template>
 
 <script lang="ts">
    import Vue from 'vue';
    import {Component, Prop} from 'vue-property-decorator';
 
-   @Component //Component是一个装饰器
-   export default class Types extends Vue {
-
-      @Prop() readonly type!: string;//-代表流出 +代表流入  默认为流出
+   @Component
+   export default class Tabs extends Vue {
+      @Prop() dataSource!: { text: string; value: string }[];
+      @Prop() readonly value!: string;
       @Prop(String) classPrefix?: string;
 
-      selectType(type: string) {
-         if (type !== '-' && type !== '+') {
-            throw  new Error('type类型未知');
-         }
-         this.$emit('update:type', type);
+      select(newValue: string) {
+         this.$emit('update:value', newValue);
       }
    }
 </script>
@@ -29,7 +25,7 @@
 <style scoped lang="scss">
    @import "~@/assets/style/helper.scss";
 
-   .types {
+   .tabs {
       display: flex;
 
       > li {
