@@ -31,7 +31,7 @@
       > li {
          position: relative;
          font-family: $font-hei;
-         padding: 14px 0;
+         padding: 5px 0;
          font-size: 24px;
          background: #c4c4c4;
          width: 50%;
