@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import clone from '@/lib/clone';
+import createId from '@/lib/createId';
 
 Vue.use(Vuex);
 //把 store 绑到 Vue.prototype上  Vue.prototype.$store = store
@@ -9,6 +10,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
    state: {//相当于data
       recordList: [] as RecordItem[],
+      tagList: [] as Tag[],
 
    },
    mutations: {//相当于methods
@@ -23,6 +25,24 @@ const store = new Vuex.Store({
          recordClone.createdAt = new Date();
          state.recordList.push(recordClone);
          store.commit('saveRecords');
+      },
+      getTags(state) {
+         state.tagList = JSON.parse(localStorage.getItem('tagList') || '[]');
+      },
+      saveTags(state) {
+         localStorage.setItem('tagList', JSON.stringify(state.tagList));
+      },
+      createTag(state, name: string) {
+         const names = state.tagList.map(item => item.name);
+         if (names.indexOf(name) >= 0) {
+            alert('不可添加重复标签');
+            return 'duplicated';
+         } else {
+            const id = createId().toString();
+            state.tagList.push({id: id, name: name});
+            store.commit('saveTags');
+            return 'success';
+         }
       },
    },
 });

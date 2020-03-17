@@ -15,11 +15,20 @@
 <script lang="ts">
    import Vue from 'vue';
    import {Component, Watch} from 'vue-property-decorator';
-   import store from '@/store/index2';
 
-   @Component
+   @Component({
+      computed: {
+         tagList() {
+            return this.$store.state.tagList;
+         }
+      }
+   })
    export default class Tags extends Vue {
-      tagList = store.getTags();
+
+      created() {
+         this.$store.commit('getTags');
+      }
+
       selectedTag: string[] = ['美食'];
 
       select(tag: string) {
@@ -39,7 +48,7 @@
          if (name === '' || name === null) {
             return;
          } else {
-               store.createTag(name);
+            this.$store.commit('createTag', name);
          }
       }
    }
