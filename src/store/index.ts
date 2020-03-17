@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import clone from '@/lib/clone';
 
 Vue.use(Vuex);
 //把 store 绑到 Vue.prototype上  Vue.prototype.$store = store
@@ -7,15 +8,23 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
    state: {//相当于data
-      count: 0
+      recordList: [] as RecordItem[],
+
    },
    mutations: {//相当于methods
-      increment(state) {
-         state.count += 1;
-      }
+      getRecords(state) {
+         state.recordList = JSON.parse(localStorage.getItem('recordList') || '[]') as RecordItem[];
+      },
+      saveRecords(state) {
+         localStorage.setItem('recordList', JSON.stringify(state.recordList));
+      },
+      createRecord(state, record: RecordItem) {
+         const recordClone: RecordItem = clone(record);
+         recordClone.createdAt = new Date();
+         state.recordList.push(recordClone);
+         store.commit('saveRecords');
+      },
    },
 });
-store.commit('increment');//通过commit调用increment方法
-console.log(store.state.count);
 
 export default store;

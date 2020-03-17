@@ -1,6 +1,5 @@
 <template>
    <Layout class-prefix="layout">
-      <button @click="$store.commit('increment')"> +1</button>
       <Types :type.sync="record.type"/>
       <Tags @update:Tag="onSelectTag"/>
       <FormItem :value="record.notes" filed-name="备注" place-holder="在这里输入备注信息" @update:Notes="onUpdateNotes"/>
@@ -15,17 +14,24 @@
    import FormItem from '@/components/Money/FormItem.vue';
    import NumberPad from '@/components/Money/NumberPad.vue';
    import {Component} from 'vue-property-decorator';
-   import oldStore from '@/store/index2';
-   import store from '@/store/index';
 
 
    @Component({
       components: {NumberPad, FormItem, Tags, Types},
+      computed: {
+         recordList() {
+           return this.$store.state.recordList;
+         }
+      }
    })
 
    export default class Money extends Vue {
 
-      recordList: RecordItem[] = oldStore.recordList;
+      created() {
+         this.$store.commit('getRecords');
+      }
+
+      //recordList: RecordItem[] = oldStore.recordList;
 
       record: RecordItem = {
          type: '-',
@@ -51,7 +57,7 @@
       }
 
       saveRecord() {
-         oldStore.createRecord(this.record);
+         this.$store.commit('createRecord', this.record);
       }
 
    }
