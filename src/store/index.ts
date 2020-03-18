@@ -8,11 +8,6 @@ Vue.use(Vuex);
 //把 store 绑到 Vue.prototype上  Vue.prototype.$store = store
 //这样我们使用Vue创建的实例就可以使用this.$store 相当于使用了store
 
-type RootState = {
-   recordList: RecordItem[];
-   tagList: Tag[];
-   currentTag?: Tag;
-}
 
 const store = new Vuex.Store({
    state: {//相当于data
@@ -29,7 +24,7 @@ const store = new Vuex.Store({
       },
       createRecord(state, record: RecordItem) {
          const recordClone: RecordItem = clone(record);
-         recordClone.createdAt = new Date();
+         recordClone.createdAt = new Date().toISOString();
          state.recordList.push(recordClone);
          store.commit('saveRecords');
       },
