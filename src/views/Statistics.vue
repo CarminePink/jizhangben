@@ -3,16 +3,20 @@
       <Layout>
          <Types :type.sync="type" class-prefix="statistics"/>
          <Tabs :data-source="intervalList" :value.sync="interval"/>
-         <div>
-            <ol>
-               <li v-for="(group,index) in result" :key="index">
-                  <h3>{{group.title}}</h3>
-                  <ol>
-                     <li v-for="item in group.items" :key="item.id">{{item.Amount}}</li>
-                  </ol>
-               </li>
-            </ol>
-         </div>
+
+         <ol>
+            <li v-for="(group,index) in result" :key="index">
+               <h3 class="title">{{group.title}}</h3>
+               <ol>
+                  <li v-for="item in group.items" :key="item.id" class="record">
+                     <span>{{tagString(item.tag)}}</span>
+                     <span class="recordNotes">{{item.notes}}</span>
+                     <span>￥{{item.Amount}}</span>
+                  </li>
+               </ol>
+            </li>
+
+         </ol>
       </Layout>
    </div>
 </template>
@@ -27,6 +31,10 @@
       components: {Tabs, Types}
    })
    export default class Statistics extends Vue {
+      tagString(tag: string[]) {
+         return tag.length === 0 ? '无标签':tag.join(',');
+      }
+
       get recordList() {
          return (this.$store.state as RootState).recordList;
       }
@@ -39,7 +47,7 @@
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const [date, time] = recordList[i].createdAt!.split('T');
             console.log(date);
-            hashTable[date] = hashTable[date] || {title:date,items: []};
+            hashTable[date] = hashTable[date] || {title: date, items: []};
             hashTable[date].items.push(recordList[i]);
          }
          console.log(hashTable);
@@ -70,6 +78,24 @@
          }
       }
 
+   }
+
+   .title {
+      padding: 8px 16px;
+      line-height: 24px;
+   }
+
+   .record {
+      background: white;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+   .recordNotes{
+      color: #999;
+      margin-right: auto ;
+      margin-left: 16px;
    }
 
 </style>
