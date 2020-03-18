@@ -64,6 +64,7 @@
             items: RecordItem[];
          }[]
          const sortRecordList = clone(recordList).filter(i => i.type === this.type).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+         if (sortRecordList.length === 0) {return [];}
          const result: Result = [{
             title: dayjs(sortRecordList[0].createdAt).format('YYYY-MM-DD'),
             items: [sortRecordList[0]]

@@ -21,7 +21,7 @@
    })
 
    export default class Money extends Vue {
-      get recordList(){
+      get recordList() {
          return this.$store.state.recordList;
       }
 
@@ -55,7 +55,11 @@
       }
 
       saveRecord() {
+         if (!this.record.tag || this.record.tag.length === 0) {
+            window.alert('请至少选择一个标签');
+         }
          this.$store.commit('createRecord', this.record);
+         this.record.notes = '';
       }
 
    }
