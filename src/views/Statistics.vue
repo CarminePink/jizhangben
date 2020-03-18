@@ -5,7 +5,7 @@
          <Tabs :data-source="intervalList" :value.sync="interval"/>
 
          <ol>
-            <li v-for="group in result" :key="group.title">
+            <li v-for="(group,index) in groupedList" :key="index">
                <h3 class="title">{{beautify(group.title)}}</h3>
                <ol>
                   <li v-for="item in group.items" :key="item.id" class="record">
@@ -27,6 +27,7 @@
    import Types from '@/components/Money/Types.vue';
    import Tabs from '@/components/Tabs.vue';
    import dayjs from 'dayjs';
+   import clone from '@/lib/clone';
 
 
    @Component({
@@ -37,18 +38,18 @@
          const now = dayjs();
          if (dayjs(string).isSame(now, 'day')) {
             return '今天';
-         } else if (dayjs(string).isSame(now.subtract(1,'day'),'day')) {
-            return '昨天'
+         } else if (dayjs(string).isSame(now.subtract(1, 'day'), 'day')) {
+            return '昨天';
          } else {
-            if(dayjs(string).isSame(now,'year')){
+            if (dayjs(string).isSame(now, 'year')) {
                return dayjs(string).format('M月D日');
-            }else{
-               return dayjs(string).format('YYYY年M月D日')
+            } else {
+               return dayjs(string).format('YYYY年M月D日');
             }
          }
       }
 
-      tagString(tag: string[]) {
+      tagString(tag: Tag[]) {
          return tag.length === 0 ? '无标签' : tag.join(',');
       }
 
@@ -56,19 +57,22 @@
          return (this.$store.state as RootState).recordList;
       }
 
-      get result() {
+      get groupedList() {
          const {recordList} = this;
-         type HashTableValue = { title: string; items: RecordItem[] }
-         const hashTable: { [key: string]: HashTableValue } = {};
-         for (let i = 0; i < recordList.length; i++) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const [date, time] = recordList[i].createdAt!.split('T');
-            console.log(date);
-            hashTable[date] = hashTable[date] || {title: date, items: []};
-            hashTable[date].items.push(recordList[i]);
+         if (recordList.length === 0) {return [];}
+         const sortRecordList = clone(recordList).filter(i => i.type === this.type).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+         const x = [{title: dayjs(sortRecordList[0].createdAt).format('YYYY-MM-DD'), items: [sortRecordList[0]]}];
+         for (let i = 1; i < sortRecordList.length; i++) {
+            const current = sortRecordList[i];
+            const last = x[x.length - 1];
+            if (dayjs(current.createdAt).isSame(last.title, 'day')) {
+               last.items.push(current);
+            } else {
+               x.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
+            }
          }
-         console.log(hashTable);
-         return hashTable;
+         console.log(x);
+         return x;
       }
 
       beforeCreate() {
