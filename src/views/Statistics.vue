@@ -5,8 +5,8 @@
          <Tabs :data-source="intervalList" :value.sync="interval"/>
 
          <ol>
-            <li v-for="(group,index) in result" :key="index">
-               <h3 class="title">{{group.title}}</h3>
+            <li v-for="group in result" :key="group.title">
+               <h3 class="title">{{beautify(group.title)}}</h3>
                <ol>
                   <li v-for="item in group.items" :key="item.id" class="record">
                      <span>{{tagString(item.tag)}}</span>
@@ -26,13 +26,30 @@
    import {Component} from 'vue-property-decorator';
    import Types from '@/components/Money/Types.vue';
    import Tabs from '@/components/Tabs.vue';
+   import dayjs from 'dayjs';
+
 
    @Component({
       components: {Tabs, Types}
    })
    export default class Statistics extends Vue {
+      beautify(string: string) {
+         const now = dayjs();
+         if (dayjs(string).isSame(now, 'day')) {
+            return '今天';
+         } else if (dayjs(string).isSame(now.subtract(1,'day'),'day')) {
+            return '昨天'
+         } else {
+            if(dayjs(string).isSame(now,'year')){
+               return dayjs(string).format('M月D日');
+            }else{
+               return dayjs(string).format('YYYY年M月D日')
+            }
+         }
+      }
+
       tagString(tag: string[]) {
-         return tag.length === 0 ? '无标签':tag.join(',');
+         return tag.length === 0 ? '无标签' : tag.join(',');
       }
 
       get recordList() {
@@ -92,9 +109,10 @@
       justify-content: space-between;
       align-items: center;
    }
-   .recordNotes{
+
+   .recordNotes {
       color: #999;
-      margin-right: auto ;
+      margin-right: auto;
       margin-left: 16px;
    }
 
