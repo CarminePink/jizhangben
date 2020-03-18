@@ -42,7 +42,7 @@
          this.record.type = type;
       }
 
-      onSelectTag(Tag: string[]) {
+      onSelectTag(Tag: Tag[]) {
          this.record.tag = Tag;
       }
 

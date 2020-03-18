@@ -2,11 +2,9 @@
    <div class="x">
       <Layout>
          <Types :type.sync="type" class-prefix="statistics"/>
-         <Tabs :data-source="intervalList" :value.sync="interval"/>
-
          <ol>
             <li v-for="(group,index) in groupedList" :key="index">
-               <h3 class="title">{{beautify(group.title)}}</h3>
+               <h3 class="title">{{beautify(group.title)}} <span>总计￥{{group.total}}</span></h3>
                <ol>
                   <li v-for="item in group.items" :key="item.id" class="record">
                      <span>{{tagString(item.tag)}}</span>
@@ -60,19 +58,29 @@
       get groupedList() {
          const {recordList} = this;
          if (recordList.length === 0) {return [];}
+         type Result = {
+            title: string;
+            total?: number;
+            items: RecordItem[];
+         }[]
          const sortRecordList = clone(recordList).filter(i => i.type === this.type).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-         const x = [{title: dayjs(sortRecordList[0].createdAt).format('YYYY-MM-DD'), items: [sortRecordList[0]]}];
+         const result: Result = [{
+            title: dayjs(sortRecordList[0].createdAt).format('YYYY-MM-DD'),
+            items: [sortRecordList[0]]
+         }];
          for (let i = 1; i < sortRecordList.length; i++) {
             const current = sortRecordList[i];
-            const last = x[x.length - 1];
+            const last = result[result.length - 1];
             if (dayjs(current.createdAt).isSame(last.title, 'day')) {
                last.items.push(current);
             } else {
-               x.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
+               result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
             }
          }
-         console.log(x);
-         return x;
+         result.forEach(group => {
+            group.total = group.items.reduce((sum, item) => sum + item.Amount, 0);
+         });
+         return result;
       }
 
       beforeCreate() {
@@ -104,6 +112,9 @@
    .title {
       padding: 8px 16px;
       line-height: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
    }
 
    .record {
