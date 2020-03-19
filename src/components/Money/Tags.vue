@@ -2,8 +2,9 @@
    <div class="tags">
       <ul class="current">
          <li :class="selectedTag.indexOf(tag.name)>=0 && 'selected'" v-for="tag in tagList" :key="tag.id"
-             @click="select(tag.name)">
-            {{tag.name}}
+             @click="select(tag.name)" class="displayTag">
+            <Icon :name="tag.iconName"/>
+            <span>{{tag.name}}</span>
          </li>
       </ul>
       <div class="new">
@@ -18,7 +19,7 @@
 
    @Component
    export default class Tags extends Vue {
-      get  tagList() {
+      get tagList() {
          return this.$store.state.tagList;
       }
 
@@ -63,18 +64,26 @@
          flex-wrap: wrap;
 
          > li {
+            position: relative;
             margin-top: 8px;
             margin-right: 12px;
-            padding: 0 20px;
-            height: 30px;
+            padding: 2px 20px;
+            /*height: 30px;*/
             line-height: 30px;
             background: #d9d9d9;
-            border-radius: 50%;
+            border-radius: 45%;
 
             &.selected {
-               background: #f60;
+               background: #87c596;
             }
          }
+      }
+
+      .displayTag {
+         border: 1px solid red;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
       }
 
       > .new {

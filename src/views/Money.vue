@@ -1,5 +1,6 @@
 <template>
    <Layout class-prefix="layout">
+      <router-link to="/tagsChoise">点这里进入</router-link>
       <Types :type.sync="record.type"/>
       <Tags @update:Tag="onSelectTag"/>
       <FormItem :value="record.notes" filed-name="备注" place-holder="在这里输入备注信息" @update:Notes="onUpdateNotes"/>
