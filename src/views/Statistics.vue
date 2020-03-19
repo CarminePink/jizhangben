@@ -1,7 +1,14 @@
 <template>
    <div class="x">
       <Layout>
-         <Types :type.sync="type" class-prefix="statistics"/>
+         <Types :type.sync="type" class-prefix="statistics" @update:type="tab"/>
+         <div id="income" style="width: 100vw ;height:250px;" v-if="recordList.length !== 0"></div>
+         <div v-if="recordList.length === 0" class="noRecordIcon-wrapper">
+            <svg class="noRecordIcon">
+               <use xlink:href="#noRecord"></use>
+            </svg>
+            <span>暂时还没有记录，快来记一笔吧！</span>
+         </div>
          <ol>
             <li v-for="(group,index) in groupedList" :key="index">
                <h3 class="title">{{beautify(group.title)}} <span>总计￥{{group.total}}</span></h3>
@@ -19,6 +26,7 @@
    </div>
 </template>
 
+
 <script lang="ts">
    import Vue from 'vue';
    import {Component} from 'vue-property-decorator';
@@ -26,12 +34,16 @@
    import Tabs from '@/components/Tabs.vue';
    import dayjs from 'dayjs';
    import clone from '@/lib/clone';
+   // import noRecordIcon from
+
+   const echarts = require('echarts');
 
 
    @Component({
       components: {Tabs, Types}
    })
    export default class Statistics extends Vue {
+
       beautify(string: string) {
          const now = dayjs();
          if (dayjs(string).isSame(now, 'day')) {
@@ -50,6 +62,7 @@
       tagString(tag: Tag[]) {
          return tag.length === 0 ? '无标签' : tag.join(',');
       }
+
 
       get recordList() {
          return (this.$store.state as RootState).recordList;
@@ -90,6 +103,71 @@
 
       type = '-';
 
+      drawChart() {
+         const {recordList} = this;
+         if (recordList.length === 0) {return [];}
+         const incomeAmounts = recordList.filter(i => i.type === '-').map(item => item.Amount);
+         const incomeRecordTag = recordList.filter(i => i.type === '-').map(item => item.tag);
+         const incomeTagName = incomeRecordTag.map(item => item[0]);
+
+         const expenseAmounts = recordList.filter(i => i.type === '+').map(item => item.Amount);
+         const expenseRecordTag = recordList.filter(i => i.type === '+').map(item => item.tag);
+         const expenseTagName = expenseRecordTag.map(item => item[0]);
+         const incomeEchartData = [];
+         const expenseEchartData = [];
+         for (let i = 0; i < recordList.filter(i => i.type === '-').length; i++) {
+            incomeEchartData[i] = {value: incomeAmounts[i], name: incomeTagName[i]};
+         }
+         for (let i = 0; i < recordList.filter(i => i.type === '+').length; i++) {
+            expenseEchartData[i] = {value: expenseAmounts[i], name: expenseTagName[i]};
+         }
+         // 基于准备好的dom，初始化echarts实例
+         const myChart = echarts.init(document.getElementById('income'));
+         // 指定图表的配置项和数据
+         const option = {
+            title: {
+               top: '16px',
+               left: 'center'
+            },
+            tooltip: {
+               trigger: 'item',
+               formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            legend: {
+               orient: 'vertical',
+               left: 'left',
+               data: this.type === '-' ? incomeTagName : expenseTagName
+            },
+            series: [
+               {
+                  name: '访问来源',
+                  type: 'pie',
+                  radius: '55%',
+                  center: ['50%', '60%'],
+                  data: this.type === '-' ? incomeEchartData : expenseEchartData,
+                  emphasis: {
+                     itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                     }
+                  }
+               }
+            ]
+         };
+         // 使用刚指定的配置项和数据显示图表。
+         myChart.setOption(option);
+      }
+
+
+      mounted() {
+         this.drawChart();
+      }
+      tab(newType: string) {
+         this.drawChart();
+      }
+
+
    }
 </script>
 
@@ -129,4 +207,17 @@
       margin-left: 16px;
    }
 
+   .noRecordIcon-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 120px;
+
+      &.noRecordIcon {
+         vertical-align: -0.15em;
+         fill: currentColor;
+         overflow: hidden;
+      }
+   }
 </style>
