@@ -2,7 +2,7 @@
    <div>
       <div class="topNav">
          <Icon name="left" @click.native="back"/>
-         <span>请选择添加的标签</span>
+         <span style="font-size: 20px">请选择添加的标签</span>
          <span @click="completeChoose">完成</span>
       </div>
       <ol class="tag-wrapper">
@@ -97,6 +97,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid #666;
+      background: #87c596;
    }
 
    .tag-wrapper {
