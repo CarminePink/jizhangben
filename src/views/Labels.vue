@@ -4,6 +4,12 @@
          <span>标签编辑页</span>
          <Icon name="bianji"/>
       </div>
+      <div v-if="this.tags.length === 0" class="noTags-wrapper">
+         <svg class="noTags">
+            <use xlink:href="#noRecord"></use>
+         </svg>
+         <span>暂时没有添加标签</span>
+      </div>
       <div class="tags">
          <router-link :to="`/labels/edit/${tag.id}`" v-for="tag in tags" :key="tag.id" class="tag">
             <span>{{tag.name}}</span>
@@ -78,6 +84,14 @@
          padding: 4px 8px;
          margin: 8px 0;
       }
+   }
+   .noTags-wrapper{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 120px;
+
    }
 
 </style>

@@ -14,9 +14,9 @@
          <button @click="inputContent('8')">8</button>
          <button @click="inputContent('9')">9</button>
          <button class="ok" @click="ok">ok</button>
-         <button @click="inputContent('0')">0</button>
+         <button class="zero" @click="inputContent('0')">0</button>
          <button @click="inputContent('.')">.</button>
-         <button>backspace</button>
+
       </div>
    </div>
 </template>
@@ -98,6 +98,9 @@
             &.ok {
                float: right;
                height: 128px;
+            }
+            &.zero{
+               width: 50%;
             }
 
             &:nth-child(1) {
