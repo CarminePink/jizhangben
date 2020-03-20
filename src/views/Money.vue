@@ -57,6 +57,7 @@
       saveRecord() {
          if (!this.record.tag || this.record.tag.length === 0) {
             window.alert('请至少选择一个标签');
+            return;
          }
          if (this.record.Amount === 0) {
             window.alert('数据不能为0');
