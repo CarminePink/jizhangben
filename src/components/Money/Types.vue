@@ -1,8 +1,8 @@
 <template>
    <div>
       <ul class="types">
-         <li :class="{[classPrefix+'-type']:classPrefix,selected: this.type ==='-'}" @click="selectType('-')">流出</li>
-         <li :class="{[classPrefix+'-type']:classPrefix,selected: this.type ==='+'}" @click="selectType('+')">流入</li>
+         <li :class="{[classPrefix+'-type']:classPrefix,selected: this.type ==='-'}" @click="selectType('-')">支出</li>
+         <li :class="{[classPrefix+'-type']:classPrefix,selected: this.type ==='+'}" @click="selectType('+')">收入</li>
       </ul>
    </div>
 </template>
@@ -41,14 +41,16 @@
          width: 50%;
          display: flex;
          justify-content: center;
-
+         &.selected{
+            background: #87c596;
+         }
          &.selected::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 3px;
+            height: 2px;
             background: #333333;
          }
       }

@@ -81,6 +81,7 @@
          const iName = this.chooseTag[0].iconName;
          console.log(tName, iName);
          this.$store.commit('createTag', {tName, iName});
+         this.$router.back();
       }
 
       back() {
@@ -116,7 +117,7 @@
          flex-direction: column;
          align-items: center;
 
-         &.selected{
+         &.selected {
             background: #87c596;
          }
       }

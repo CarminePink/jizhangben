@@ -8,7 +8,7 @@
          </li>
       </ul>
       <div class="new">
-         <button @click="create()">新增标签</button>
+         <router-link class="tagsChoise" to="/tagsChoise">添加标签</router-link>
       </div>
    </div>
 </template>
@@ -82,7 +82,7 @@
          position: relative;
          padding-top: 16px;
 
-         > button {
+         > .tagsChoise {
             position: absolute;
             right: 0;
             color: #999;

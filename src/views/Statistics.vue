@@ -163,7 +163,7 @@
       mounted() {
          this.drawChart();
       }
-      tab(newType: string) {
+      tab() {
          this.drawChart();
       }
 
@@ -176,7 +176,7 @@
       background: white;
 
       &.selected {
-         background: #c4c4c4;
+         background: #87c596;
 
          &::after {
             display: none;

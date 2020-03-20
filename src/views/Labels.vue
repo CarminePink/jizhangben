@@ -3,6 +3,7 @@
       <div class="tags">
          <router-link :to="`/labels/edit/${tag.id}`" v-for="tag in tags" :key="tag.id" class="tag">
             <span>{{tag.name}}</span>
+            <Icon :name="tag.iconName" class="iconTag"/>
             <Icon name="right"/>
          </router-link>
 
@@ -50,6 +51,11 @@
          padding-left: 16px;
          border-bottom: 1px solid #dddde0;
          min-height: 44px;
+
+         .iconTag{
+            margin-right: auto;
+            margin-left: 8px;
+         }
       }
 
       svg {
