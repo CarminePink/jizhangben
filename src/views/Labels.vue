@@ -1,5 +1,9 @@
 <template>
    <Layout>
+      <div class="edit">
+         <span>标签编辑页</span>
+         <Icon name="bianji"/>
+      </div>
       <div class="tags">
          <router-link :to="`/labels/edit/${tag.id}`" v-for="tag in tags" :key="tag.id" class="tag">
             <span>{{tag.name}}</span>
@@ -8,10 +12,6 @@
          </router-link>
 
       </div>
-      <div class="createTag-wrapper">
-         <Button class="createTag" @click.native="createTag">新建标签</Button>
-      </div>
-
    </Layout>
 </template>
 
@@ -41,6 +41,7 @@
 </script>
 
 <style lang="scss">
+   @import "~@/assets/style/helper.scss";
    .tags {
       background: white;
 
@@ -65,18 +66,18 @@
          color: #333;
       }
    }
-
-   .createTag {
-      background-color: #767676;
-      padding: 0 16px;
-      border-radius: 5px;
-      border: none;
-      height: 40px;
-
-      &-wrapper {
-         text-align: center;
-         padding-top: 16px;
-         margin-top: 28px;
+   .edit{
+      line-height: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid #666;
+      > span{
+         font-size: 18px;
+         font-family: $font-hei;
+         padding: 4px 8px;
+         margin: 8px 0;
       }
    }
+
 </style>

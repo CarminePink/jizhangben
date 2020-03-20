@@ -3,7 +3,7 @@
       <ul class="current">
          <li :class="selectedTag.indexOf(tag.name)>=0 && 'selected'" v-for="tag in tagList" :key="tag.id"
              @click="select(tag.name)">
-            <Icon :name="tag.iconName"/>
+            <Icon :name="tag.iconName" class="iconTag"/>
             <span>{{tag.name}}</span>
          </li>
       </ul>
@@ -63,6 +63,7 @@
          display: flex;
          flex-wrap: wrap;
          font-size: 16px;
+
          > li {
             margin: 8px 16px;
             padding: 6px 6px;
@@ -74,6 +75,12 @@
 
             &.selected {
                background: #87c596;
+            }
+
+            .iconTag {
+               margin-left: 7px;
+               width: 16px;
+               height: 16px;
             }
          }
       }
