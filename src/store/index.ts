@@ -39,7 +39,7 @@ const store = new Vuex.Store({
          console.log(payLoad);
          const {tName, iName} = payLoad;
          const names = state.tagList.map(item => item.name);
-         if (names.indexOf(name) >= 0) {
+         if (names.indexOf(tName) >= 0) {
             alert('不可添加重复标签');
          } else {
             const id = createId().toString();

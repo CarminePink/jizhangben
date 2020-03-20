@@ -2,7 +2,7 @@
    <div class="tags">
       <ul class="current">
          <li :class="selectedTag.indexOf(tag.name)>=0 && 'selected'" v-for="tag in tagList" :key="tag.id"
-             @click="select(tag.name)" class="displayTag">
+             @click="select(tag.name)">
             <Icon :name="tag.iconName"/>
             <span>{{tag.name}}</span>
          </li>
@@ -62,28 +62,20 @@
       > .current {
          display: flex;
          flex-wrap: wrap;
-
+         font-size: 16px;
          > li {
-            position: relative;
-            margin-top: 8px;
-            margin-right: 12px;
-            padding: 2px 20px;
-            /*height: 30px;*/
-            line-height: 30px;
-            background: #d9d9d9;
-            border-radius: 45%;
+            margin: 8px 16px;
+            padding: 6px 6px;
+            border: 1px solid #c1c1c1;
+            border-radius: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
             &.selected {
                background: #87c596;
             }
          }
-      }
-
-      .displayTag {
-         border: 1px solid red;
-         display: flex;
-         flex-direction: column;
-         align-items: center;
       }
 
       > .new {
