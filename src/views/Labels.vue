@@ -8,7 +8,7 @@
          <svg class="noTags">
             <use xlink:href="#noRecord"></use>
          </svg>
-         <span>暂时没有添加标签</span>
+         <span style="color: #999">暂时没有添加标签</span>
       </div>
       <div class="tags">
          <router-link :to="`/labels/edit/${tag.id}`" v-for="tag in tags" :key="tag.id" class="tag">

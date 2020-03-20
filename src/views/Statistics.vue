@@ -7,7 +7,7 @@
             <svg class="noRecordIcon">
                <use xlink:href="#noRecord"></use>
             </svg>
-            <span>暂时还没有记录，快来记一笔吧！</span>
+            <span style="color: #999">暂时还没有记录，快来记一笔吧！</span>
          </div>
          <ol>
             <li v-for="(group,index) in groupedList" :key="index">

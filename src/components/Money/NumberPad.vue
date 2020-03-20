@@ -9,11 +9,11 @@
          <button @click="inputContent('4')">4</button>
          <button @click="inputContent('5')">5</button>
          <button @click="inputContent('6')">6</button>
-         <button @click="clear">清空</button>
+         <button @click="clear">C</button>
          <button @click="inputContent('7')">7</button>
          <button @click="inputContent('8')">8</button>
          <button @click="inputContent('9')">9</button>
-         <button class="ok" @click="ok">ok</button>
+         <button class="ok" @click="ok">OK</button>
          <button class="zero" @click="inputContent('0')">0</button>
          <button @click="inputContent('.')">.</button>
 
@@ -101,6 +101,7 @@
             }
             &.zero{
                width: 50%;
+               background: #a9a9a9;
             }
 
             &:nth-child(1) {
@@ -115,20 +116,20 @@
                background: #d3d3d3;
             }
 
-            &:nth-child(4), &:nth-child(7), &:nth-child(10), &:nth-child(13) {
+            &:nth-child(4), &:nth-child(7), &:nth-child(10){
                background: #c1c1c1
             }
 
-            &:nth-child(8), &:nth-child(11), &:nth-child(14) {
+            &:nth-child(8), &:nth-child(11){
                background-color: #a9a9a9;
             }
 
             &:nth-child(12) {
-               background: #8b8b8b;
+               background: darken(#8b8b8b,6%);
             }
 
-            &:nth-child(15) {
-               background: #9a9a9a;
+            &:nth-child(14){
+               background: #8b8b8b;
             }
 
          }
